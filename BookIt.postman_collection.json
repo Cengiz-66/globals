@@ -1,0 +1,323 @@
+{
+	"info": {
+		"_postman_id": "829d2336-f95e-4098-88bc-4c5f1c9ded93",
+		"name": "BookIt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET StudentToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "adc0fdae-3d9b-475f-acc2-58097e35a0e8",
+						"exec": [
+							"var jsonData=pm.response.json();\r",
+							"\r",
+							"pm.globals.set(\"apiToken\", jsonData.accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{apiToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cybertek-reservation-api-qa.herokuapp.com/sign?email={{studentEmail}}&password={{studentPassword}}",
+					"protocol": "https",
+					"host": [
+						"cybertek-reservation-api-qa",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"sign"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "{{studentEmail}}"
+						},
+						{
+							"key": "password",
+							"value": "{{studentPassword}}"
+						}
+					]
+				},
+				"description": "Get The user token and set it as a global variable"
+			},
+			"response": []
+		},
+		{
+			"name": "GET ME",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{apiToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cybertek-reservation-api-qa.herokuapp.com/api/students/me",
+					"protocol": "https",
+					"host": [
+						"cybertek-reservation-api-qa",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"students",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Students Information By ID",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "97d74ae8-e6ee-4a70-b526-52381bf498d9",
+						"exec": [
+							"//pm.globals.set(\"id\", [1988,1989,1990,192]);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd282c2a-f491-44f7-b529-0f9143d3b8d2",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{apiToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cybertek-reservation-api-qa.herokuapp.com/api/students/{{id}}",
+					"protocol": "https",
+					"host": [
+						"cybertek-reservation-api-qa",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"students",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET MyTeam",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4ed05bf5-5371-43a7-9959-b90053c7d91a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"FirstName check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.members[0].firstName).to.eql(\"Clemmie\");\r",
+							"    pm.expect(jsonData.name).to.eql(\"Cucumber\");\r",
+							"\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{apiToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cybertek-reservation-api-qa.herokuapp.com/api/teams/my",
+					"protocol": "https",
+					"host": [
+						"cybertek-reservation-api-qa",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"teams",
+						"my"
+					]
+				},
+				"description": "Send a request and verify status code and first name and team name"
+			},
+			"response": []
+		},
+		{
+			"name": "GET TeacherToken",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a9ed7b1c-9b53-4a9b-a3a6-41e0d083aeed",
+						"exec": [
+							"pm.globals.set(\"teacherEmail\", \"teacherva4@gmail.com\");\r",
+							"\r",
+							"pm.globals.set(\"teacherPassword\", \"markwohlberg\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7cd8c44a-97c8-4636-8565-34f4aa954e1c",
+						"exec": [
+							"\r",
+							"//var jsonData=pm.response.json();\r",
+							"pm.globals.set(\"teacherToken\", pm.response.json().accessToken);\r",
+							"\r",
+							"//var teacherToken=jsonData.accessToken;\r",
+							"\r",
+							"//console.log(teacherToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cybertek-reservation-api-qa.herokuapp.com/sign?email={{teacherEmail}}&password={{teacherPassword}}",
+					"protocol": "https",
+					"host": [
+						"cybertek-reservation-api-qa",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"sign"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "{{teacherEmail}}"
+						},
+						{
+							"key": "password",
+							"value": "{{teacherPassword}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET TeacherMe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "23119097-7022-4a25-bd25-5b4378219a42",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Teacher id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(2063);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{teacherToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cybertek-reservation-api-qa.herokuapp.com/api/students/me",
+					"protocol": "https",
+					"host": [
+						"cybertek-reservation-api-qa",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"students",
+						"me"
+					]
+				},
+				"description": "Send a request and verify status code and user id"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
